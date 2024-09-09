@@ -1,2 +1,2 @@
-# P5-empty-project
-This repository is the starting point of the assignments given in the course [Computergrafica per l'Information Design](https://www11.ceda.polimi.it/schedaincarico/schedaincarico/controller/scheda_pubblica/SchedaPublic.do?&evn_default=evento&c_classe=834257&lang=IT&__pj0=0&__pj1=9c10fe379e96db59d55d49b6b4252c5e).
+![alt text](cover.png)
+A tribute to [Manfred Mohr](https://gazelliarthouse.com/artists/219-manfred-mohr/works/8101-manfred-mohr-p155-1974-76/), _P155_, 1974-76
