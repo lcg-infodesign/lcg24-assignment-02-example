@@ -1,87 +1,108 @@
-function preload() {
-  // put preload code here
-}
-
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  // put setup code here
-  background("#d1d1d1");
-  stroke("#1b1b19");
+  // The setup function runs once when the program starts.
+  // It's used to define initial environment properties.
 
-  //padding around the glyphs
+  // Creates a canvas that fills the entire browser window.
+  createCanvas(windowWidth, windowHeight);
+
+  // Sets the background color to a light gray.
+  background("#d1d1d1");
+
+  // Padding around the glyphs to prevent them from touching the edges.
   let outerpadding = 30;
 
+  // Sets the angle mode to degrees for rotations (default is radians).
   angleMode(DEGREES);
+  // Sets the thickness of the lines.
   strokeWeight(1);
+  // Changes how colors blend; 'BURN' creates a darker effect when shapes overlap.
   blendMode(BURN);
+  // Ensures shapes are not filled; only outlines will be drawn.
   noFill();
 
-  //calculate the space without padding
+  // Calculates the drawable area by subtracting the outer padding from the canvas dimensions.
   let totalWidth = width - outerpadding * 2;
   let totalHeight = height - outerpadding * 2;
 
-  // size of each glyph
+  // Size of each glyph (the small shapes we'll draw).
   let side = 15;
-  //space between glyphs
+  // Space between glyphs.
   let padding = 20;
 
-  // calcualate the size occupied by each glpy in the grid,
-  // based on the two previous variables
+  // Calculates the total space each glyph occupies, including its size and the padding around it.
   let glyphSize = side + padding;
 
-  //calcualte columns and rows
+  // Calculates how many rows and columns of glyphs can fit in the drawable area.
   let totalRows = totalHeight / glyphSize;
   let totalCols = totalWidth / glyphSize;
 
-  // creatw two for cicles to draw all the glyphs
-
+  // Nested loops to draw each glyph in a grid formation.
   for (let row = 0; row < totalRows; row++) {
     for (let col = 0; col < totalCols; col++) {
-      //calculate y position
+      // Calculates the y-position for the current glyph.
       let y = outerpadding + row * glyphSize;
-      //calculate x position
-      let x = outerpadding + col * (side + padding);
-
+      // Calculates the x-position for the current glyph.
+      let x = outerpadding + col * glyphSize;
+      // Sets the stroke color for the glyph.
       stroke("darkslategray");
-      // push coordinate system before allpying transofrmations
+
+      // Saves the current drawing settings and transformations.
       push();
-      // translate to computed x and y
+      // Moves the origin point to the glyph's position.
       translate(x, y);
-      // apply rotation (for aesthetic purposes)
+      // Rotates the coordinate system slightly for aesthetic effect.
       rotate(5);
-      //call the function
+      // Calls the function to draw the glyph.
       drawWorms(side, 3, 9);
-      // pop the position. It's important since it will allows you to
-      // apply a different transformation for next one
+      // Restores the original drawing settings and transformations.
+      // It's important since it will allows you to apply a different transformation
+      // for next glyph.
       pop();
     }
   }
 
-  // cycle to draw lines between lines of glyphs.
-  // not needed, but i like them.
-  for (let row = 0; row < totalRows; row++) {
-    //calculate y position
-    let y = outerpadding + row * glyphSize;
-    //set stroke color
+  // Loop to draw lines between rows of glyphs for additional visual structure.
+  // Not really needed, but i like them.
+  // we wills tart from 1 to skip the first line
+  for (let row = 1; row < totalRows; row++) {
+    // Calculates the y-position for the line.
+    // it is similar to the y calculation for the glyph,
+    // but we add half padding to keep it in the middle
+    let y = outerpadding + row * glyphSize - padding / 2;
+    // Sets the stroke color for the lines.
     stroke("#555");
-    //draw line
-    line(outerpadding, y - padding / 2, width - outerpadding, y - padding / 2);
+
+    // Draws a horizontal line across the canvas.
+
+    line(outerpadding, y, width - outerpadding, y);
   }
 }
 
 function draw() {
-  // put drawing code here
+  // The draw function runs continuously after setup().
+  // It's used for animations, but since our sketch is static, it's left empty.
 }
 
 function drawWorms(size = 10, maxPoints = 10, maxAmount = 3) {
+  // This function draws worm-like shapes using curves.
+
+  // Number of points in each worm.
   let points = maxPoints;
+  // Randomly determines how many worms to draw.
   let amount = random(0, maxAmount);
-  for (j = 0; j < amount; j++) {
+
+  for (let wormNumber = 0; wormNumber < amount; wormNumber++) {
+    // Starts defining a custom shape.
     beginShape();
 
-    for (i = 0; i <= points; i++) {
-      curveVertex(random(0, size), random(0, size));
+    for (let point = 0; point <= points; point++) {
+      // generate random x and y position
+      let x = random(0, size);
+      let y = random(0, size);
+      // Adds points to the shape at random positions within the glyph's size.
+      curveVertex(x, y);
     }
+    // Finishes defining the custom shape.
     endShape();
   }
 }
